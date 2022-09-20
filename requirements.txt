@@ -1,3 +1,5 @@
 rouge-score
 nltk
 datasets
+sentencepiece
+protobuf==3.20
