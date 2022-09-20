@@ -17,11 +17,9 @@
 # Install requirements.txt
 pip install -r requirements.txt
 
-# Install huggingface transformers from github so that we have access to example
-# scripts.
-git clone https://github.com/huggingface/transformers.git
 cd transformers
 pip install .
+pip install -r ./transformers/examples/pytorch/question-answering/requirements.txt
 
 # Download Roberta checkpoint.
 cd ../
