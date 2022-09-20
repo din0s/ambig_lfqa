@@ -19,7 +19,7 @@ pip install -r requirements.txt
 
 cd transformers
 pip install .
-pip install -r ./transformers/examples/pytorch/question-answering/requirements.txt
+pip install -r ./examples/pytorch/question-answering/requirements.txt
 
 # Download Roberta checkpoint.
 cd ../
