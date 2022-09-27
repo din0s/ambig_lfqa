@@ -7,6 +7,8 @@ set_seed(42)
 model_name = "google/t5-small-ssm-nq"
 train_batch_size = 20
 eval_batch_size = 20
+# name the model to push to hub
+ft_model_name = "t5-small-asqa-cb"
 
 def tokenize_function(example):
     question_tokenized = tokenizer(f"question: {example['ambiguous_question']}", truncation=True, max_length=38)
@@ -44,8 +46,7 @@ model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
 
 training_args = Seq2SeqTrainingArguments(
     output_dir="t5_finetuned", 
-    evaluation_strategy="steps",
-    eval_steps=872, 
+    evaluation_strategy="epoch",
     remove_unused_columns=True,
     group_by_length=True,
     per_device_train_batch_size=train_batch_size, 
@@ -53,8 +54,11 @@ training_args = Seq2SeqTrainingArguments(
     eval_accumulation_steps=8,
     num_train_epochs=50,
     save_strategy="epoch",
+    save_total_limit=1,
     report_to="wandb",
     learning_rate=5e-4,
+    load_best_model_at_end=True,
+    metric_for_best_model="rougeL",
 )
 
 # Load metric
@@ -71,3 +75,5 @@ trainer = Trainer(
 )
 
 trainer.train()
+
+model.push_to_hub(ft_model_name)
