@@ -1,5 +1,5 @@
 from datasets import load_dataset
-from transformers import AutoModelForSeq2SeqLM, T5TokenizerFast, Seq2SeqTrainingArguments, Trainer, set_seed, DataCollatorForSeq2Seq
+from transformers import AutoModelForSeq2SeqLM, T5TokenizerFast, Seq2SeqTrainingArguments, Trainer, set_seed, DataCollatorForSeq2Seq, EarlyStoppingCallback
 import evaluate
 import numpy as np
 
@@ -8,10 +8,21 @@ model_name = "google/t5-small-ssm-nq"
 train_batch_size = 20
 eval_batch_size = 20
 # name the model to push to hub
-ft_model_name = "t5-small-asqa-cb"
+ft_model_name = "t5-small-asqa-ob"
+
+def has_context(example):
+    context = [i["context"] for i in example["qa_pairs"]]
+    context = list(filter(("No context provided").__ne__, context))
+    if context:
+        return True
+    return False
 
 def tokenize_function(example):
-    question_tokenized = tokenizer(f"question: {example['ambiguous_question']}", truncation=True, max_length=38)
+    context = [i["context"] for i in example["qa_pairs"]]
+    context = list(filter(("No context provided").__ne__, context))
+    context = ' | '.join(context)
+
+    question_tokenized = tokenizer(f"question: {example['ambiguous_question']} context: {context}", truncation=True, max_length=512)
     example['input_ids'] = question_tokenized['input_ids']
 
     ans_tokenized = tokenizer(text_target=example['annotations'][0]['long_answer'], truncation=True, max_length=512)
@@ -34,18 +45,18 @@ def compute_metrics(pred):
 dataset = load_dataset("din0s/asqa")
 
 # Remove unnecessary columns
-col_keep = ["ambiguous_question", "annotations"]
+col_keep = ["ambiguous_question", "qa_pairs", "annotations"]
 col_remove = list(set(dataset["train"].column_names).difference(col_keep))
 dataset = dataset.remove_columns(col_remove)
 
 tokenizer = T5TokenizerFast.from_pretrained(model_name)
 
-tokenized_datasets = dataset.map(tokenize_function, remove_columns=["annotations"])
+tokenized_datasets = dataset.filter(has_context).map(tokenize_function, remove_columns=["annotations"])
 
 model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
 
 training_args = Seq2SeqTrainingArguments(
-    output_dir="t5_finetuned", 
+    output_dir=ft_model_name, 
     evaluation_strategy="epoch",
     remove_unused_columns=True,
     group_by_length=True,
@@ -57,8 +68,9 @@ training_args = Seq2SeqTrainingArguments(
     save_total_limit=1,
     report_to="wandb",
     learning_rate=5e-4,
-    load_best_model_at_end=True,
-    metric_for_best_model="rougeL",
+    metric_for_best_model="rougeLsum",
+    push_to_hub=True,
+    load_best_model_at_end = True,
 )
 
 # Load metric
@@ -72,8 +84,9 @@ trainer = Trainer(
     compute_metrics=compute_metrics,
     tokenizer=tokenizer,
     data_collator=DataCollatorForSeq2Seq(tokenizer, model),
+    callbacks=[EarlyStoppingCallback(early_stopping_patience=5, early_stopping_threshold=1e-3)]
 )
 
 trainer.train()
 
-model.push_to_hub(ft_model_name)
+trainer.push_to_hub()
