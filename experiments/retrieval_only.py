@@ -9,12 +9,13 @@ K = [3, 5]
 PASSAGE_PATHS = {"bm25":"./passages/bm25_passages.json", "dpr":"./passages/dpr_passages.json"}
 
 for (retriever, path) in PASSAGE_PATHS.items():
+    # Load passages
+    with open(path, "r") as f:
+        passages = json.load(f)
+
     for k in K:
         JSON_FILENAME = f"{retriever}@{k}.json"
         pred_dict = {}
-
-        with open(path, "r") as f:
-            passages = json.load(f)
 
         for i in dataset["dev"]:
             sample_id = i['sample_id']
