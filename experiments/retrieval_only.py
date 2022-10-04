@@ -5,7 +5,7 @@ import json
 dataset = load_dataset("din0s/asqa")
 
 # at K
-K = [3, 5]
+K = [1, 3, 5]
 PASSAGE_PATHS = {"bm25":"./passages/bm25_passages.json", "dpr":"./passages/dpr_passages.json"}
 
 for (retriever, path) in PASSAGE_PATHS.items():
