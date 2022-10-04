@@ -1,4 +1,3 @@
-from email.mime import base
 from datasets import load_dataset
 from transformers import (
     AutoModelForSeq2SeqLM,
@@ -113,6 +112,9 @@ elif dataset_name == "msmarco-nlgen":
         "save_steps": 2500,
         "learning_rate": 1e-4,
     }
+
+if base_model == "bart":
+    custom_args["learning_rate"] = 5e-6
 
 training_args = Seq2SeqTrainingArguments(
     output_dir=ft_model_name,
