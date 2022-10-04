@@ -167,3 +167,10 @@ roberta/
 
 # Weights and Biases
 wandb/
+
+# HuggingFace models
+t5-base-*/
+bart-*/
+
+# Job outputs
+*.out
