@@ -1,8 +1,12 @@
 from datasets import load_dataset
 from pyserini.search.lucene import LuceneSearcher
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from typing import Dict
 
 import json
+
+import torch
+device = "cuda:0" if torch.cuda.is_available() else "cpu"
 
 
 def prepare_question(q: str, k: int = 3) -> str:
@@ -17,7 +21,7 @@ def prepare_question(q: str, k: int = 3) -> str:
     return f"question: {q} context: {' '.join([h.raw for h in hits])}"
 
 
-def answer_batch(batch: dict[str, list]) -> dict[str]:
+def answer_batch(batch: Dict[str, list]) -> Dict[str]:
     """
     Answer a batch of questions using the seq2seq model.
     This function is used by the `map` method of the `datasets.Dataset` class.
@@ -26,7 +30,7 @@ def answer_batch(batch: dict[str, list]) -> dict[str]:
         batch: A dict containing the questions to answer under `ambiguous_question`.
     """
     questions = [prepare_question(q) for q in batch["ambiguous_question"]]
-    inputs = tokenizer(questions, return_tensors="pt", padding=True, truncation=True)
+    inputs = tokenizer(questions, return_tensors="pt", padding=True, truncation=True).to(device)
     gen_outputs = model.generate(
         inputs["input_ids"],
         attention_mask=inputs["attention_mask"],
@@ -40,8 +44,8 @@ def answer_batch(batch: dict[str, list]) -> dict[str]:
 
 # Load the dataset, tokenizer, model and index.
 dataset = load_dataset("din0s/asqa")
-tokenizer = AutoTokenizer.from_pretrained("t5-large", model_max_length=512)
-model = AutoModelForSeq2SeqLM.from_pretrained("t5-large")
+tokenizer = AutoTokenizer.from_pretrained("t5-base", model_max_length=512)
+model = AutoModelForSeq2SeqLM.from_pretrained("t5-base").to(device)
 index = LuceneSearcher.from_prebuilt_index('enwiki-paragraphs')
 
 # Remove unnecessary columns.
@@ -50,7 +54,7 @@ col_remove = list(set(dataset["dev"].column_names).difference(col_keep))
 data = dataset["dev"].remove_columns(col_remove)
 
 # Answer the questions in the dataset.
-answers = data.map(answer_batch, batched=True, batch_size=16)
+answers = data.map(answer_batch, batched=True, batch_size=4)
 
 # Save the answers to a JSON file.
 with open("t5_bm25_predictions.json", "w") as fp:
