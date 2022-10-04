@@ -164,3 +164,6 @@ dataset/
 outputs/
 results/
 roberta/
+
+# Weights and Biases
+wandb/
