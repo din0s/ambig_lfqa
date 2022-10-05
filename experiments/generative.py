@@ -1,5 +1,6 @@
 from datasets import load_dataset
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+import random
 
 import json
 import torch
@@ -14,6 +15,7 @@ model_name = get_var_or_default("MODEL_NAME", "t5-base")
 tokenizer_name = get_var_or_default("TOKENIZER_NAME", model_name)
 
 OPEN_BOOK = get_var_or_default("OPEN_BOOK", "false").lower() == "true"
+RANDOM_RETRIEVAL = get_var_or_default("RANDOM_RETRIEVAL", "false").lower() == "true"
 BATCH_SIZE = int(get_var_or_default("BATCH_SIZE", "8"))
 
 SAVE_PATH = get_var_or_default("SAVE_PATH", "./output.json")
@@ -44,7 +46,11 @@ with torch.no_grad():
         questions = [f"question: {q}" for q in batch['ambiguous_question']]
 
         if OPEN_BOOK:
-            contexts = [passages[id][:top_k] for id in ids]
+            if RANDOM_RETRIEVAL:
+                all_passages = [pasg for pasgs in passages.values() for pasg in pasgs]
+                contexts = [random.sample(all_passages, top_k) for _ in range(BATCH_SIZE)]
+            else:
+                contexts = [passages[id][:top_k] for id in ids]
 
             if "bart" in model_name:
                 contexts = ["<P> " + " <P> ".join(c) for c in contexts]
