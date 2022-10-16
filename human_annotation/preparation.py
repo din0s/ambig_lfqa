@@ -83,7 +83,7 @@ if __name__ == '__main__':
 
   args = parse_args()
 
-  df = pd.read_csv(args.setup, sep='\t', dtype=str)
+  df = pd.read_csv(args.setup, sep='\t', dtype=str, encoding='cp1252')
 
   with open(args.asqa, 'r') as handler:
     asqa_tmp = json.load(handler)
