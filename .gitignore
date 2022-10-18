@@ -164,6 +164,10 @@ dataset/
 outputs/
 results/
 roberta/
+predictions/
+
+# Retrieval passages
+passages/
 
 # Weights and Biases
 wandb/
@@ -174,3 +178,9 @@ bart-*/
 
 # Job outputs
 *.out
+
+# Human annotation
+human_annotation/results_of_comparisons
+human_annotation/human_evaluation
+human_annotation/comparisons_rfd
+human_annotation/comparisons

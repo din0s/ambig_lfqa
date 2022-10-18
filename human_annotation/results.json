@@ -1,0 +1,93 @@
+{
+    "bart_large_asqa_dpr@5": {
+        "Accuracy": 0.3958333333333333,
+        "Comprehensiveness": 0.625,
+        "Fluency": 0.5,
+        "Overall": 0.625,
+        "count": 1.0
+    },
+    "t5_base_msmarco_asqa_dpr@3": {
+        "Accuracy": 0.4583333333333333,
+        "Comprehensiveness": 0.375,
+        "Fluency": 0.625,
+        "Overall": 0.5,
+        "count": 1.0
+    },
+    "bart_large_asqa_bm25@5": {
+        "Accuracy": 0.35,
+        "Comprehensiveness": 0.375,
+        "Fluency": 0.5,
+        "Overall": 0.25,
+        "count": 1.0
+    },
+    "bart_large_asqa_bm25@1": {
+        "Accuracy": 0.425,
+        "Comprehensiveness": 0.375,
+        "Fluency": 0.5,
+        "Overall": 0.375,
+        "count": 1.0
+    },
+    "t5_base_asqa_dpr@3": {
+        "Accuracy": 0.29166666666666663,
+        "Comprehensiveness": 0.5625,
+        "Fluency": 0.375,
+        "Overall": 0.5,
+        "count": 1.0
+    },
+    "bart_large_asqa_dpr@3": {
+        "Accuracy": 0.4325,
+        "Comprehensiveness": 0.525,
+        "Fluency": 0.525,
+        "Overall": 0.525,
+        "count": 1.0
+    },
+    "bart_base_asqa_dpr@3": {
+        "Accuracy": 0.29166666666666663,
+        "Comprehensiveness": 0.4375,
+        "Fluency": 0.5,
+        "Overall": 0.4375,
+        "count": 1.0
+    },
+    "bart_large_asqa_bm25@3": {
+        "Accuracy": 0.35555555555555557,
+        "Comprehensiveness": 0.5833333333333334,
+        "Fluency": 0.5,
+        "Overall": 0.625,
+        "count": 1.0
+    },
+    "dpr@1": {
+        "Accuracy": 0.49999999999999994,
+        "Comprehensiveness": 0.625,
+        "Fluency": 0.4375,
+        "Overall": 0.375,
+        "count": 1.0
+    },
+    "bart_base_asqa_dpr@1": {
+        "Accuracy": 0.5833333333333333,
+        "Comprehensiveness": 0.375,
+        "Fluency": 0.625,
+        "Overall": 0.5,
+        "count": 1.0
+    },
+    "reference": {
+        "Accuracy": 0.75,
+        "Comprehensiveness": 0.875,
+        "Fluency": 0.5,
+        "Overall": 0.875,
+        "count": 1.0
+    },
+    "bart_large_eli5_asqa_dpr@3": {
+        "Accuracy": 0.6875,
+        "Comprehensiveness": 0.375,
+        "Fluency": 0.5,
+        "Overall": 0.375,
+        "count": 1.0
+    },
+    "bart_large_asqa_dpr@1": {
+        "Accuracy": 0.4041666666666667,
+        "Comprehensiveness": 0.3125,
+        "Fluency": 0.5,
+        "Overall": 0.5,
+        "count": 1.0
+    }
+}
