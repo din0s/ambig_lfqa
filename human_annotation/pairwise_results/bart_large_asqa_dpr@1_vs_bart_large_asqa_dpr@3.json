@@ -1,0 +1,16 @@
+{
+    "bart_large_asqa_dpr@1": {
+        "Accuracy": 0.225,
+        "Comprehensiveness": 0.25,
+        "Fluency": 0.5,
+        "Overall": 0.25,
+        "count": 1.0
+    },
+    "bart_large_asqa_dpr@3": {
+        "Accuracy": 0.39166666666666666,
+        "Comprehensiveness": 0.75,
+        "Fluency": 0.5,
+        "Overall": 0.75,
+        "count": 1.0
+    }
+}

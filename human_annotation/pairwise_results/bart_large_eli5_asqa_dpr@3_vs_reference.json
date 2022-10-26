@@ -1,0 +1,16 @@
+{
+    "bart_large_eli5_asqa_dpr@3": {
+        "Accuracy": 0.5,
+        "Comprehensiveness": 0.125,
+        "Fluency": 0.5,
+        "Overall": 0.125,
+        "count": 1.0
+    },
+    "reference": {
+        "Accuracy": 1.0,
+        "Comprehensiveness": 0.875,
+        "Fluency": 0.5,
+        "Overall": 0.875,
+        "count": 1.0
+    }
+}

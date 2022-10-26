@@ -1,0 +1,16 @@
+{
+    "bart_large_asqa_bm25@3": {
+        "Accuracy": 0.35,
+        "Comprehensiveness": 0.625,
+        "Fluency": 0.5,
+        "Overall": 0.75,
+        "count": 1.0
+    },
+    "bart_large_asqa_bm25@5": {
+        "Accuracy": 0.25,
+        "Comprehensiveness": 0.375,
+        "Fluency": 0.5,
+        "Overall": 0.25,
+        "count": 1.0
+    }
+}

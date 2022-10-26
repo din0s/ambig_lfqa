@@ -149,7 +149,7 @@ def parse_args(argv=None):
 
 if __name__ == '__main__':
   args = parse_args()
-  setup = pd.read_csv(args.setup, sep='\t', dtype=str, encoding='cp1252')
+  setup = pd.read_csv(args.setup, sep='\t', dtype=str, encoding='utf-8')
   comparisons = pd.read_excel(args.comparisons, header=None)
   df = process_comparisons(setup, comparisons)
   df.to_csv(args.dst, sep='\t', index=False)
