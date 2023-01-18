@@ -1,10 +1,7 @@
-# Tackling Ambiguous Long-Form Question Answering
-Konstantinos Papakostas, Irene Papadopoulou
-
-_This project was developed for the MSc Artificial Intelligence course "Information Retrieval 2" at the University of Amsterdam._
+# Model Analysis & Evaluation for Ambiguous Question Answering
 
 ## Abstract
-Long-Form Question Answering (LFQA) is a challenging field where models are tasked to generate fluent and concise answers. In order to perform well, the proposed approaches need to effectively summarize relevant evidence and produce an answer in natural language that satisfies the users' needs. We aim to explore some of the common approaches in this field, with a focus on ambiguous questions, which pose an added difficulty as the answers need to cover multiple aspects from a single query. We find that larger generative models produce better answers overall, as their capability to combine relevant passages increases. Additionally, we perform a human evaluation study that confirms the general trends observed when using established LFQA metrics.
+Ambiguous questions are a challenge for Question Answering models, as they require answers that cover multiple interpretations of the original query. To this end, these models are required to generate long-form answers that often combine conflicting pieces of information. Although recent advances in the field have shown strong capabilities in generating fluent responses, certain research questions remain unanswered. Does model/data scaling improve the answers' quality? Do automated metrics align with human judgment? To what extent do these models ground their answers in evidence? In this study, we aim to thoroughly investigate these aspects, and provide valuable insights into the limitations of the current approaches.
 
 ## Results
 <img src="images/main_results.png" width='80%'/>
